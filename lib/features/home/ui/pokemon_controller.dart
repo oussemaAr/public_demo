@@ -7,6 +7,7 @@ class PokemonController extends GetxController {
   final PokemonRepository _repository = PokemonRepository();
 
   List<PokemonUiModel> pokemonList = [];
+  List<PokemonUiModel> filtredPokemonList = [];
   bool isLoading = true;
 
   @override
@@ -14,8 +15,18 @@ class PokemonController extends GetxController {
     super.onInit();
     _repository.fetchPokemon()?.then((value) {
       pokemonList.addAll(value!);
+      filtredPokemonList.addAll(value!);
       isLoading = false;
       update();
     });
+  }
+
+  filter(String searchText) {
+    filtredPokemonList.assignAll(
+      pokemonList.where(
+        (element) => element.name.toLowerCase().contains(searchText),
+      ),
+    );
+    update();
   }
 }
