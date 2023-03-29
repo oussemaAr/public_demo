@@ -1,6 +1,6 @@
+import 'package:demoapp/features/home/data/model/pokemon_data_model.dart';
 import 'package:demoapp/features/home/ui/home_page.dart';
-import 'package:demoapp/features/home/ui/widget/home_body.dart';
-import 'package:demoapp/features/home/ui/widget/pokemon_item.dart';
+import 'package:demoapp/features/pokemondetail/pokemon_detail_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,11 @@ class MainWidget extends StatelessWidget {
         primaryColor: Colors.blueAccent,
         primarySwatch: Colors.teal,
       ),
-      home: HomePage(),
+      initialRoute: "/",
+      routes: {
+        HomePage.routeName: (context) => HomePage(),
+        PokemonDetailPage.routeName: (context) => PokemonDetailPage()
+      },
     );
   }
 }

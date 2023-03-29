@@ -1,17 +1,37 @@
+import 'package:demoapp/features/home/domain/pokemon_repository.dart';
 import 'package:demoapp/features/home/ui/widget/pokemon_item.dart';
+import 'package:demoapp/features/pokemondetail/pokemon_detail_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../fake/pokemon_fake_data.dart';
-
 class HomeBody extends StatelessWidget {
+  final PokemonRepository _repository = PokemonRepository();
+
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-      itemCount: pokemonList.length,
-      itemBuilder: (context, index) {
-        return PokemonItem(pokemonList[index]);
+    return FutureBuilder(
+      future: _repository.fetchPokemon(),
+      builder: (context, snapshot) {
+        return snapshot.hasData
+            ? GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemCount: snapshot.data?.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        PokemonDetailPage.routeName,
+                        arguments: snapshot.data![index],
+                      );
+                    },
+                    child: PokemonItem(snapshot.data![index]),
+                  );
+                },
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              );
       },
     );
   }

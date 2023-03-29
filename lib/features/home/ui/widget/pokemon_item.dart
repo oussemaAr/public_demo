@@ -28,8 +28,8 @@ class PokemonItem extends StatelessWidget {
 }
 
 class PokemonUiModel {
-  final String name;
   final int id;
+  final String name;
   final String imageUrl;
 
   PokemonUiModel({
